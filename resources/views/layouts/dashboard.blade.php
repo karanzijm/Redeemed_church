@@ -1,0 +1,2 @@
+@include('generic.sidebar')
+Dashboard
