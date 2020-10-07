@@ -56,25 +56,43 @@
                         @csrf
                           <input type="file" name="file" class="form-control">
                           <br>
-            
-                      <div class="row form-group">
-                        <div class="col-md-12">
-                          <label class="font-weight-bold" for="message">Message</label> 
-                          <textarea name="message" id="message" cols="30" rows="5" class="form-control" placeholder="Add Message to send"></textarea>
-                          <p id="message_character"></p>
+
+<!--                      <div class="row form-group">-->
+<!--                        <div class="col-md-12">-->
+<!--                          <label class="font-weight-bold" for="message">Message</label> -->
+<!--                          <textarea name="message" id="message" cols="30" rows="5" class="form-control" placeholder="Add Message to send"></textarea>-->
+<!--                          <p id="message_character"></p>-->
+<!--                        </div>-->
+<!--                      </div>-->
+
+                        <div class="row form-group">
+                            <div class="col-md-12">
+                                <label class="font-weight-bold" for="message">Message</label>
+                                <textarea name="message" id="message" cols="30" rows="5" class="form-control" placeholder="Add Message to send"></textarea>
+                                <p id="message_character"></p>
+                            </div>
                         </div>
-                      </div>
-            
+
                       <div class="row form-group">
                         <div class="col-md-12">
                           <input type="submit" value="Send Message" class="btn btn-primary pill px-4 py-2">
                         </div>
                       </div>
-            
-            
+
+
                     </form>
                 </div>
             </main>
         </div>
     </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+
+        $('#message').keyup(function(){
+            var words = $.trim($("textarea").val()).split("");
+            var message = words.length +" characters, "+((Math.floor(words.length/160))+1) +" message(s)";
+            $('#message_character').html(message);
+        })
+    });
+</script>
 @endsection
