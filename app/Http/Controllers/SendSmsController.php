@@ -26,7 +26,7 @@ class SendSmsController extends Controller
 
     public function userBooking(Request $request)
     {
-        //validate 
+        //validate
        $validatedData = $this->validate($request,[
            'name' => ['required'],
            'message' => ['string'],
@@ -49,42 +49,85 @@ class SendSmsController extends Controller
     public function sendSms(Request $request){
 
         //As preached by Deacon Humphrey R : Locked down but not blocked. Your voice can not be blocked; Continue to Connect with God. God is not only breaking chains and strongholds; He is opening new doors and new opportunities for you.( Acts 16:22-28). Pr Kasaija
-        $msg = 'Make the LORD Most High ur refugee and shelter, No evil will conquer u and No plague will come near U.He will order His angels 2protect u Ps91:9-11.Pr Kasaija';
         // $msg = '"If you make the LORD your refuge, if you make the Most High your shelter, no evil will conquer you; no plague will come near your home. For he will order his angels to protect you wherever you go." Ps.91:9-11. Pr Kasaija';
         // dd(str_split($msg));
         $contacts_ = Contact::select("contact")->get()->toArray();
-        
+        // $contacts_ =['a', 'b', 'c', 'd','e','f'];
+
         $imp =[];
-        
+        $aa =[];
+        $i = 0;
         foreach($contacts_ as $id){
-            array_push($imp,'+'.$id['contact']);
-            
+            $i++;
+            // array_push($imp,$id);
+            array_push($imp,$id['contact']);
+            if($i>50){
+                // $aa = implode(',',$imp);
+                $recipients = implode(',',$imp);
+                var_dump($recipients);
+                $this->sendToAT($recipients);
+                $i =0;
+                array_splice($imp,0);
+                echo '<br/>';
+            }
+
+            // array_push($imp,$id['contact']);
+
         }
-        $recipients = implode(',',$imp);
-        $this->sendToAT($msg,$recipients);
-        // var_dump($recipients);exit();
+        exit();
+        // $recipients = implode(',',$imp);
+        // // var_dump($recipients);exit();exit();
+
+        // $this->sendToAT($recipients);
     }
 
-    private function sendToAT($message,$recipients){
-dd($message);
-        $username = 'Redeemedchurch'; // use 'sandbox' for development in the test environment
-        $apiKey   = 'e1a5c9d9156de4b64459eeabcea0ac52996071c9c91979322ce15ebe667a0447'; // use your sandbox app API key for development in the test environment
-        $AT       = new AfricasTalking($username, $apiKey);
+    private function sendToAT($recipients){
+
+// dd($message);
+        // $username = 'Redeemedchurch'; // use 'sandbox' for development in the test environment
+        // $apiKey   = 'e1a5c9d9156de4b64459eeabcea0ac52996071c9c91979322ce15ebe667a0447'; // use your sandbox app API key for development in the test environment
+        // $AT       = new AfricasTalking($username, $apiKey);
         // Get sms of the services
-        $sms      = $AT->sms();
+        // $sms      = $AT->sms();
          // Use the service
+// var_dump($recipients);exit();
+         $username ='rcm@vsmsug.com';
+         $password ='passionately';
+         $sender ='Redeemed church';
+        //  $message = preg_replace('/\s+/', '%20', $message);
+        $message = 'Catherine Poran and Deacon Margaret Nalwanga lost their mother a Vigil Tue 20 Oct Kibiri Busabala.Burial Wed 21 Oct at 2pm  Degeya Bombo Rd.';
+
+         $url = 'http://www.vsmsug.com/vapi-cgibin/?uname=rcm@vsmsug.com&passwd=passionately&mm='.urlencode($message).'&n='.$recipients.'&f=RedeemedChurch';
+                //    http://www.vsmsug.com/vapi-cgibin/?uname=rcm@vsmsug.com&passwd=passionately&mm=Have%20u%20received%20the%20messages...&n=256770802760,256701586693,256754243503&f=RedeemedChurch
+        //  $url ='http://www.vsmsug.com/vapi- cgibin/?uname='.$username.
+        //          '&passwd=pass**&mm=Iam% 20testing&n=256701888781,256776888781&f= psms';
+
          try{
-            $result   = $sms->send([
-                'to'      => $recipients,
-                'message' => $message,
-                'from' => 'SMSINFO'
-            ]);
+            $request_headers[] =  'Content-Type:application/json';
+            if (!function_exists('curl_init')){
+                die('cURL is not installed. Install and try again.');
+            }
+            // var_dump($url);exit();
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $request_headers);
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+            $result = curl_exec($ch);
+            var_dump($result);
+            // $result   = $sms->send([
+            //     'to'      => $recipients,
+            //     'message' => $message,
+            //     'from' => 'SMSINFO'
+            // ]);
 
             return $result;
          } catch(Exception $e) {
              echo "Error: ".$e->getMessage();
          }
-            
+
     }
 
     //add phone numbers from a .docx file
@@ -136,17 +179,17 @@ dd($message);
                         $contact = new Contact([
                             'contact' => $arr[$i]
                         ]);
-                        $contact->save();   
-                   }  
-                    $i++;   
+                        $contact->save();
+                   }
+                    $i++;
                }
-                    
+
         }
         $time_elapsed_secs = microtime(true) - $start;
         // dd($time_elapsed_secs);
-        
+
         return redirect('/getUsers')->with('success','Contacts Added');
-        
+
     }
 
     public function addMessage(){

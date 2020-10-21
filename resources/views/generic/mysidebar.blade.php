@@ -1,4 +1,4 @@
-@extends('layouts.myfile')
+{{-- @extends('layouts.myfile') --}}
 
 @section('content')
     <div class="container-fluid">
@@ -68,7 +68,7 @@
                         <div class="row form-group">
                             <div class="col-md-12">
                                 <label class="font-weight-bold" for="message">Message</label>
-                                <textarea name="message" id="message" cols="30" rows="5" class="form-control" placeholder="Add Message to send"></textarea>
+                                <textarea name="message" id="message" cols="100" rows="5" class="form-control" placeholder="Add Message to send"></textarea>
                                 <p id="message_character"></p>
                             </div>
                         </div>

@@ -16,7 +16,7 @@
 
   @if(session()->get('success'))
     <div class="alert alert-success">
-      {{ session()->get('success') }}  
+      {{ session()->get('success') }}
     </div>
   @endif
 </div>
@@ -45,7 +45,7 @@
   <div class="table-responsive">
       <form method="POST" action="{{ route('send') }}" enctype="multipart/form-data">
       @csrf
-      
+
         <table class="table">
           <thead>
             <tr>
@@ -56,7 +56,7 @@
               <th>Location</th>
               <th>Home Cell</th>
               <th>Marital Status</th>
-              <th>Number of Children</th>
+              <th>Numbersss of Children</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -70,20 +70,20 @@
               <tr id="tr_{{$user->contact}}">
                 <td><input data-id="{{$user->contact}}" value="{{$user->id}}" class="sub_chk" type="checkbox" name="selected_values[]">
                 <td>{{$user->name}}</td>
-                <td>{{$user->email}}</td> 
-                <td>{{$user->contact}}</td> 
-                <td>{{$user->location}}</td> 
-                <td>{{$user->home_cell}}</td> 
-                <td>{{$user->marital_status?$user->marital_status: 'Not Set'}}</td> 
-                <td>{{$user->no_of_children?$user->no_of_children: 'Not Set'}}</td> 
+                <td>{{$user->email}}</td>
+                <td>{{$user->contact}}</td>
+                <td>{{$user->location}}</td>
+                <td>{{$user->home_cell}}</td>
+                <td>{{$user->marital_status?$user->marital_status: 'Not Set'}}</td>
+                <td>{{$user->no_of_children?$user->no_of_children: 'Not Set'}}</td>
                 <td>
                     <a href="{{ route('edit',$user->id) }}" class="edit btn btn-success btn-sm">Edit</a>
                     <a href="#" data-toggle="modal" data-id="{{$user->id}}" data-url="{!! URL::route('delete',$user->id) !!}" data-target="#deleteModal" class="delete btn btn-danger btn-sm">Delete</a>
-                  </td> 
+                  </td>
               </tr>
 
             @endforeach
-            
+
           </tbody>
         </table>
         <button type="submit" name="submit">Here</button>
@@ -117,7 +117,7 @@
                     </div>
                 </div>
             </form>
-      <!-- End Delete Modal --> 
+      <!-- End Delete Modal -->
 <?php
 if(isset($_GET["submit"])){
     var_dump($_GET['selected_values']);
@@ -144,7 +144,7 @@ $(document).ready(function(){
 		$('body').find('.delete').append('<input name="_token" type="hidden" value="'+ token +'">');
 		$('body').find('.delete').append('<input name="_method" type="hidden" value="DELETE">');
 		$('body').find('.delete').append('<input name="id" type="text" value="'+ id +'">');
-	
+
   });
 })
 
