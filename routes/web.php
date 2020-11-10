@@ -28,7 +28,8 @@ Route::post('send','SendSmsController@sendSms')->name('send');
 
 Route::get('/ss', 'ChurchUser@importExportView');
 Route::post('importUser', 'ChurchUser@import')->name('importUser');
-Route::post('read', 'SendSmsController@read')->name('read');
+Route::post('read', 'SendSmsController@import')->name('read');
+// Route::post('read', 'SendSmsController@read')->name('read');
 
 //student
 Route::get('students',['uses'=> 'StudentController@index', 'as'=>'student-list']);

@@ -14,7 +14,7 @@
                     </div>
                   <h1 class="mb-4">Following <span>Jesus</span> wherever we are</h1>
                   <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-                  <p><a href="#" class="btn btn-primary py-2 px-4">Be part of us</a> <a href="#" class="btn btn-primary btn-outline-primary py-2 px-4">Read more</a></p>
+                  {{-- <p><a href="#" class="btn btn-primary py-2 px-4">Be part of us</a> <a href="#" class="btn btn-primary btn-outline-primary py-2 px-4">Read more</a></p> --}}
               </div>
             </div>
           </div>
@@ -25,14 +25,14 @@
         <div class="overlay"></div>
           <div class="container">
             <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-center" data-scrollax-parent="true">
-            <div class="col-md-8 text-center ftco-animate mt-5">
+            <div class="col-xmd-8 text-center ftco-animate mt-5">
                 <div class="text">
                     <div class="subheading">
                         <span>Christian Church</span>
                     </div>
                   <h1 class="mb-4">We <span>Love</span> God, We Believe in God</h1>
                   <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-                  <p><a href="#" class="btn btn-primary py-2 px-4">Be part of us</a> <a href="#" class="btn btn-primary btn-outline-primary py-2 px-4">Read more</a></p>
+                  {{-- <p><a href="#" class="btn btn-primary py-2 px-4">Be part of us</a> <a href="#" class="btn btn-primary btn-outline-primary py-2 px-4">Read more</a></p> --}}
               </div>
             </div>
           </div>
@@ -40,7 +40,7 @@
     </div>
   </section>
 
-  <section class="ftco-section ftco-no-pt ftco-no-pb ftco-about-section" id="about-section">
+  {{-- <section class="ftco-section ftco-no-pt ftco-no-pb ftco-about-section" id="about-section">
     <div class="container-fluid px-0">
         <div class="row d-md-flex text-wrapper">
                 <div class="one-half img" style="background-image: url('{{ asset('images/about.jpg')}}');"></div>
@@ -58,9 +58,9 @@
                 </div>
         </div>
     </div>
-</section>
+</section> --}}
 
-<section class="ftco-section ftco-no-pb" id="pastor-section">
+{{-- <section class="ftco-section ftco-no-pb" id="pastor-section">
   <div class="container">
     <div class="row justify-content-center pb-5">
       <div class="col-md-6 heading-section text-center ftco-animate">
@@ -156,7 +156,7 @@
       </div>
     </div>
   </div>
-</section>
+</section> --}}
 
 {{-- <section class="ftco-counter" id="section-counter">
     <div class="container-fluid px-0">
@@ -225,7 +225,7 @@
             <h3 class="heading mb-3">Daily Prayers</h3>
             <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
           </div>
-        </div>      
+        </div>
       </div>
       <div class="col-md d-flex align-self-stretch ftco-animate">
         <div class="media block-6 services text-center d-block">
@@ -234,7 +234,7 @@
             <h3 class="heading mb-3">Continous Teaching</h3>
             <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
           </div>
-        </div>      
+        </div>
       </div>
       <div class="col-md d-flex align-self-stretch ftco-animate">
         <div class="media block-6 services text-center d-block">
@@ -243,7 +243,7 @@
             <h3 class="heading mb-3">Set of Sermons</h3>
             <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
           </div>
-        </div>      
+        </div>
       </div>
       <div class="col-md d-flex align-self-stretch ftco-animate">
         <div class="media block-6 services text-center d-block">
@@ -252,7 +252,7 @@
             <h3 class="heading mb-3">Wedding</h3>
             <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
           </div>
-        </div>      
+        </div>
       </div>
       <div class="col-md d-flex align-self-stretch ftco-animate">
         <div class="media block-6 services text-center d-block">
@@ -261,7 +261,7 @@
             <h3 class="heading mb-3">Community Helpers</h3>
             <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
           </div>
-        </div>      
+        </div>
       </div>
     </div>
   </div>
@@ -284,7 +284,7 @@
             <h3 class="heading mb-3">Daily Prayers</h3>
             <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
           </div>
-        </div>      
+        </div>
       </div>
       <div class="col-md d-flex align-self-stretch ftco-animate">
         <div class="media block-6 services text-center d-block">
@@ -293,7 +293,7 @@
             <h3 class="heading mb-3">Continous Teaching</h3>
             <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
           </div>
-        </div>      
+        </div>
       </div>
       <div class="col-md d-flex align-self-stretch ftco-animate">
         <div class="media block-6 services text-center d-block">
@@ -302,7 +302,7 @@
             <h3 class="heading mb-3">Set of Sermons</h3>
             <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
           </div>
-        </div>      
+        </div>
       </div>
       <div class="col-md d-flex align-self-stretch ftco-animate">
         <div class="media block-6 services text-center d-block">
@@ -311,7 +311,7 @@
             <h3 class="heading mb-3">Wedding</h3>
             <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
           </div>
-        </div>      
+        </div>
       </div>
       <div class="col-md d-flex align-self-stretch ftco-animate">
         <div class="media block-6 services text-center d-block">
@@ -320,7 +320,7 @@
             <h3 class="heading mb-3">Community Helpers</h3>
             <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
           </div>
-        </div>      
+        </div>
       </div>
     </div>
   </div>

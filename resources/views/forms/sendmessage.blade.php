@@ -30,7 +30,6 @@
             @csrf
               <input type="file" name="file" class="form-control">
               <br>
-
           <div class="row form-group">
             <div class="col-md-12">
               <label class="font-weight-bold" for="message">Message</label>

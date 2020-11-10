@@ -21,8 +21,8 @@
                                 {{-- <li class="nav-item"><a href="#events-section" class="nav-link"><span>Events</span></a></li>
                                 <li class="nav-item"><a href="#causes-section" class="nav-link"><span>Causes</span></a></li>
                                 <li class="nav-item"><a href="#blog-section" class="nav-link"><span>Blog</span></a></li> --}}
-                                <li class="nav-item"><a href="#pastor-section" class="nav-link"><span>Pastor</span></a></li>
-                                <li class="nav-item"><a href="{{ route('contact')}}" class="nav-link"><span>Contact</span></a></li>
+                                {{-- <li class="nav-item"><a href="#pastor-section" class="nav-link"><span>Pastor</span></a></li> --}}
+                                {{-- <li class="nav-item"><a href="{{ route('contact')}}" class="nav-link"><span>Contact</span></a></li> --}}
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
                                 </li>

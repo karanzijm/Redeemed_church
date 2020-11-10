@@ -23,7 +23,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('generic.home');
+        return view('generic.sidebar');
 
         // return view('myviews.sendMessage');
         // return view('layouts.myfile');
