@@ -34,9 +34,10 @@ Route::post('read', 'SendSmsController@import')->name('read');
 //student
 Route::get('students',['uses'=> 'StudentController@index', 'as'=>'student-list']);
 
-Auth::routes();
+Auth::routes(['register' => false]);
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('sendMessage', 'SendSmsController@addMessage')->name('sendMessage');
 Route::get('contact', 'SendSmsController@addContact')->name('contact');
 Route::post('book', 'SendSmsController@userBooking')->name('book');
+Route::get('getAll', 'HomeController@getAll')->name('congregation');
