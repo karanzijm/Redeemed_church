@@ -28,7 +28,7 @@ class RenderController extends Controller
                 ->rawColumns(['action','checkbox'])
                 ->make(true);
         }
-      
+
         return view('gyrocode');
     }
 
@@ -37,7 +37,7 @@ class RenderController extends Controller
 
         if ($request->ajax()) {
             $search = $request->query('search', array('value' => '', 'regex' => false));
-            $order = $request->query('order', array(1, 'asc'));        
+            $order = $request->query('order', array(1, 'asc'));
 
             $filter = $search['value'];
 
@@ -54,7 +54,7 @@ class RenderController extends Controller
             $data->get();
             return Datatables::of($data)->make(false);
         }
-      
+
         return view('gyrocode');
     }
 

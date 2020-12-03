@@ -53,13 +53,16 @@ class SendSmsController extends Controller
 
     public function import(Request $request)
     {
-
+        request()->validate([
+            'file'  => 'required|mimes:xlsx,xls',
+          ]);
         if(request()->file('file')){
+            // dd(request()->file('file'));
             Excel::import(new churchImport, request()->file('file'));
         }
-        $this->message = $request->get('message');
+        // $this->message = $request->get('message');
 
-        $this->sendSms();
+        // $this->sendSms();
 
          return back()->with('success','Successfull');
     }

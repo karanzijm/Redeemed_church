@@ -10,7 +10,7 @@
     <div class="container">
       <div class="row align-items-center justify-content-center">
         <div class="col-md-7 text-center" data-aos="fade">
-          <h1>Send Message</h1>
+          <h1>Send Messagess</h1>
         </div>
       </div>
     </div>

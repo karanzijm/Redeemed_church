@@ -32,6 +32,8 @@
       <option value="50">50</option>
       <option value="200">200</option>
       <option value="1000">1000</option>
+      <option value="5000">5000</option>
+      <option value="10000">10000</option>
     </select>
   </div>
     <div class="form-group mb-2">
@@ -46,7 +48,7 @@
       <form method="POST" action="{{ route('send') }}" enctype="multipart/form-data">
       @csrf
 
-        <table class="table">
+        <table class="table table-bordered">
           <thead>
             <tr>
               <th><input type="checkbox" class="selectAll" onclick()="selectAll()"></th>
