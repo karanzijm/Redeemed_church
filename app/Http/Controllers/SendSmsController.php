@@ -53,61 +53,82 @@ class SendSmsController extends Controller
 
     public function import(Request $request)
     {
+        $result = 0;
         request()->validate([
             'file'  => 'required|mimes:xlsx,xls',
           ]);
         if(request()->file('file')){
-            // dd(request()->file('file'));
             Excel::import(new churchImport, request()->file('file'));
+        } else {
+            $result = "Please Provide an Excell sheet";
         }
-        // $this->message = $request->get('message');
 
-        // $this->sendSms();
-
-         return back()->with('success','Successfull');
+         echo $result;
     }
 
-    public function sendSms(){
+    public function getContacts(Request $request) {
+         $contacts = $request->get('contacts');
+         $this->message = $request->get('message');
+         $contact_ = [];
+         foreach($contacts as $contact)
+         {
+             if(strlen($contact['phone_number']) == 10){
+                 array_push($contact_,preg_replace('/^0/', '256', $contact['phone_number']));
+             }
+             array_push($contact_, $contact['phone_number']);
+
+         }
+         $this->sendSms($contact_);
+
+    }
+
+    public function sendSms($contacts_){
 
         // dd($this->message);
-        $contacts_ = Church::select("phone_number")->get()->toArray();
+        // $contacts_ = Church::select("phone_number")->get()->toArray();
 
         $imp =[];
         $i = 0;
-        $j = 0;
+        $result='';
         $div = sizeof($contacts_);
-        $div = ((int) ($div/50))*50;
-        // dd($div);
-        foreach($contacts_ as $key => $id){
-            $i++;
-            // var_dump($key);
-            array_push($imp,$id['phone_number']);
-            if($i>50){
-                $recipients = implode(',',$imp);
-                // $this->sendToAT($recipients);
-                $i =0;
-                array_splice($imp,0);
-                echo '<br/>';
+        if($div < 50) {
+            foreach($contacts_ as $id){
+                array_push($imp,$id);
             }
+            $recipients = implode(',',$imp);
+            $result = $this->sendToAT($recipients);
+        } else {
+            $div = ((int) ($div/50))*50;
+            foreach($contacts_ as $key => $id){
 
-            if($key >=$div){
-                // $this->sendToAT($id['contact']);
-                var_dump($id['contact']);
-                // var_dump($j++);echo '<br/>';
+                $i++;
+                array_push($imp,$id);
+                if($i>50){
+                    $recipients = implode(',',$imp);
+                    // $result = $this->sendToAT($recipients);
+                    $i =0;
+                    array_splice($imp,0);
+                    echo '<br/>';
+                }
+
+                if($key >=$div){
+                    // $result=$this->sendToAT($id);
+                    var_dump($id);
+                }
+
             }
-
         }
-        return;
+
+        echo $result == 1701 ? 0 : 1;
     }
 
     private function sendToAT($recipients){
 
-         $username ='rcm@vsmsug.com';
-         $password ='passionately';
+         $username ='redeemedmak@vsmsug.com';
+         $password ='saviour';
          $sender ='Redeemed church';
 
-         $url = 'http://www.vsmsug.com/vapi-cgibin/?uname=rcm@vsmsug.com&passwd=passionately&mm='.urlencode($this->message).'&n='.$recipients.'&f=RedeemedChurch';
-
+         $url = 'http://www.vsmsug.com/vapi-cgibin/?uname='.$username.'&passwd='.$password.'&mm='.urlencode($this->message).'&n='.$recipients.'&f=RedeemedChurch';
          try{
             $request_headers[] =  'Content-Type:application/json';
             if (!function_exists('curl_init')){

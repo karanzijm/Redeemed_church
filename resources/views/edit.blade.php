@@ -23,7 +23,7 @@
                 </div>
 
                 <div class="form-group mb-2">
-                    <label for="gender" class="col-sm-6 col-form-label">Gender</label>
+                    <label for="gender" class="col-sm-3 col-form-label">Gender</label>
                     <select name="gender">
                         <option value="{{$user->gender ?? ''}}">{{$user->gender ?? ''}}</option>
                     <option selected value="Male">Male</option>
@@ -53,7 +53,7 @@
                 </div>
 
                 <div class="form-group mb-2">
-                    <label for="marital_status" class="col-sm-6 col-form-label">Marital Status</label>
+                    <label for="marital_status" class="col-sm-3 col-form-label">Marital Status</label>
                     <select name="marital_status">
                         <option value="{{$user->marital_status ?? ''}}">{{$user->marital_status ?? ''}}</option>
                     <option value="Married">Married</option>

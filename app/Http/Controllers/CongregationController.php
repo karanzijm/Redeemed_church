@@ -24,6 +24,7 @@ class CongregationController extends Controller
     public function importExport()
             {
                 return view('generic.home');
+                // return view('generic.table');
             }
 
             public function export()

@@ -24,6 +24,7 @@ class HomeController extends Controller
      */
     public function index()
     {
+        // return view('generic.table',['title'=>'Redeemed Church']);
         return view('generic.sidebar',['title'=>'Redeemed Church']);
 
         // return view('myviews.sendMessage');
@@ -33,8 +34,7 @@ class HomeController extends Controller
 
     public function getAll()
     {
-        $congregation = Church::latest()->get();
-        // dd($congregation);
+        $congregation = Church::select('*')->where('status','1')->latest()->paginate(10);
         return view('generic.table',['congregation'=>$congregation , 'title'=>'Redeemed Church']);
     }
 }

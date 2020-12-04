@@ -32,8 +32,7 @@
             margin: 10px;
             color: #4A6EDB
         }
-
-    </style>
+        </style>
 
 </head>
 
@@ -62,11 +61,11 @@
                 <i class="fas fa-fw fa-tachometer-alt"></i>
                 <span>Dashboard</span></a>
         </li>
-        <li class="nav-item">
+        {{-- <li class="nav-item">
             <a class="nav-link" href="{{ route('home') }}">
                 <i class="fas fa-fw fa-envelope"></i>
                 <span>Messages</span></a>
-        </li>
+        </li> --}}
         <li class="nav-item">
             <a class="nav-link" href="#">
                 <i class="fas fa-fw fa-address-book"></i>
@@ -120,22 +119,6 @@
                         <i class="fa fa-bars"></i>
                     </button>
                 </form>
-
-                <!-- Topbar Search -->
-                {{--
-                <form
-                    class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                    <div class="input-group">
-                        <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
-                               aria-label="Search" aria-describedby="basic-addon2">
-                        <div class="input-group-append">
-                            <button class="btn btn-primary" type="button">
-                                <i class="fas fa-search fa-sm"></i>
-                            </button>
-                        </div>
-                    </div>
-                </form>
-                --}}
 
                 <!-- Topbar Navbar -->
                 <ul class="navbar-nav ml-auto">
@@ -213,6 +196,12 @@
                           {{-- end filter --}}
 
                             <div class="table-responsive">
+                                <div class="links">
+                                    <a href="#"><i class="fa fa-user-plus linked"></i><a>
+                                        <i data-toggle="modal" data-target="#uploadContacts"
+                                        class="fa fa-upload linked"></i>
+                                            <i data-toggle="modal" data-target="#sendMessage" class="fa fa-envelope-square linked"></i>
+                                </div>
                                 <form method="POST" action="{{ route('send') }}" enctype="multipart/form-data">
                                 @csrf
 
@@ -220,14 +209,6 @@
                                     <thead>
                                       <tr>
                                         <th><input type="checkbox" class="selectAll" onclick()="selectAll()"></th>
-                                        {{-- <th>Name</th>
-                                        <th>Email</th>
-                                        <th>Contact</th>
-                                        <th>Location</th>
-                                        <th>Home Cell</th>
-                                        <th>Marital Status</th>
-                                        <th>Numbersss of Children</th>
-                                        <th>Action</th> --}}
                                         <th>Name</th>
                                     <th>Email</th>
                                     <th>Phone Number</th>
@@ -248,11 +229,8 @@
                                           <td>{{$user->name}}</td>
                                           <td>{{$user->email}}</td>
                                           <td>{{$user->phone_number}}</td>
-                                          {{-- <td>{{$user->location}}</td> --}}
                                           <td>{{$user->watsup_number}}</td>
                                           <td>{{$user->home_cell}}</td>
-                                          {{-- <td>{{$user->marital_status?$user->marital_status: 'Not Set'}}</td> --}}
-                                          {{-- <td>{{$user->no_of_children?$user->no_of_children: 'Not Set'}}</td> --}}
                                           <td>
                                               <a href="{{ route('edit',$user->id) }}" class="edit btn btn-success btn-sm">Edit</a>
                                               <a href="#" data-toggle="modal" data-id="{{$user->id}}" data-url="{!! URL::route('delete',$user->id) !!}" data-target="#deleteModal" class="delete btn btn-danger btn-sm">Delete</a>
@@ -263,59 +241,15 @@
 
                                     </tbody>
                                   </table>
-                                  <button type="submit" name="submit">Here</button>
-                                <a href="{{ route('read') }}" class="btn btn-success btn-sm">Read File</a>
+                                  {{-- <button type="submit" name="submit">Here</button>
+                                <a href="{{ route('read') }}" class="btn btn-success btn-sm">Read File</a> --}}
                                       </form>
-                                      {{-- {!! $congregation->appends(Request::except('page'))->render() !!} --}}
+                                      {!! $congregation->appends(Request::except('page'))->render() !!}
                                       <p>
-                                        {{-- Displaying {{$congregation->count()}} of {{ $congregation->total() }} user(s). --}}
+                                        Displaying {{$congregation->count()}} of {{ $congregation->total() }} user(s).
                                     </p>
                               </div>
-                        {{-- <div class="table-responsive">
-                            <div class="links">
-                                <a href="#"><i class="fa fa-user-plus linked"></i><a>
-                                        <i data-toggle="modal" data-target="#uploadContacts"
-                                           class="fa fa-upload linked"></i>
-                                        <i data-toggle="modal" data-target="#sendMessage" class="fa fa-envelope-square linked"></i>
-                            </div>
-                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                <div>
-                                    {{-- <button data-toggle="modal" data-target="#sendMessage" class="create-message">Create
-                                        Message
-                                    </button> --}}
-                                {{-- </div>
-                                <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Email</th>
-                                    <th>Home Cell</th>
-                                    <th>Phone Number</th>
-                                    <th>Watsup Number</th>
-                                </tr>
-                                </thead>
-                                <tfoot>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Email</th>
-                                    <th>Home Cell</th>
-                                    <th>Phone Number</th>
-                                    <th>Watsup Number</th>
-                                </tr> --}}
-                                {{-- </tfoot>
-                                <tbody> --}}
-                                {{-- @foreach($congregation as $christian) --}}
-                                {{-- <tr>
-                                    <td>{{$christian->name}}</td>
-                                    <td>{{$christian->email}}</td>
-                                    <td>{{$christian->home_cell}}</td>
-                                    <td>{{$christian->phone_number}}</td>
-                                    <td>{{$christian->watsup_number}}</td>
-                                </tr> --}}
-                                {{-- @endforeach
 
-                                </tbody>
-                            </table>
-                        </div> --}}
                     </div>
                 </div>
 
@@ -329,7 +263,8 @@
         <footer class="sticky-footer bg-white">
             <div class="container my-auto">
                 <div class="copyright text-center my-auto">
-                    <span>Copyright &copy; Your Website 2020</span>
+                    <span>Copyright &copy; Redeemed Church Uganda @php echo date("Y");
+                    @endphp</span>
                 </div>
             </div>
         </footer>
@@ -366,37 +301,6 @@
     </div>
 </div>
 
-<!-- Upload contacts Modal-->
-<div class="modal fade" id="uploadContacts" tabindex="-1" role="dialog" aria-labelledby="uploadContacts"
-     aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Upload Contacts</h5>
-                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                </button>
-            </div>
-            <div class="modal-body">
-
-                <form method="POST" enctype="multipart/form-data" class="p-5 bg-white file_upload" action="javascript:void(0)">
-
-                    @csrf
-                    <input type="file" name="file" class="form-control">
-                    <span class="text-danger">{{ $errors->first('file') }}</span>
-                    <div class="col-md-12">
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                        </div>
-                </form>
-
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-            </div>
-        </div>
-    </div>
-</div>
-
            <!-- Delete Warning Modal -->
            <form action="" method="POST" class="remove-record-model">
             <div id="deleteModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="deleteLabel" aria-hidden="true" style="display: none;">
@@ -426,13 +330,20 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Upload Contacts</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Send Message</h5>
                 <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
             <div class="modal-body">
 
+            <!-- Image loader -->
+            <div id='loader' style='display: none;'>
+                <img src='{{ asset('images/reload.gif') }}' width='32px' height='32px'>
+            </div>
+            <!-- END Image loader -->
+
+              <div class="messageType"></div>
                 <form id="message_push" action="javascript:void(0)" method="POST" enctype="multipart/form-data" class="p-5 bg-white">
                     @csrf
 
@@ -461,6 +372,43 @@
     </div>
 </div>
 
+<!-- Upload contacts Modal-->
+<div class="modal fade" id="uploadContacts" tabindex="-1" role="dialog" aria-labelledby="uploadContacts"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="uploadModalLabel">Upload Contacts</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Image loader -->
+            <div id='loader_upload' style='display: none;'>
+                <img src='{{ asset('images/reload.gif') }}' width='32px' height='32px'>
+            </div>
+            <!-- END Image loader -->
+              <div class="uploadMessage"></div>
+                <form method="POST" enctype="multipart/form-data" class="p-5 bg-white file_upload" action="javascript:void(0)">
+
+                    @csrf
+                    <input type="file" name="file" class="form-control">
+                    <span class="text-danger">{{ $errors->first('file') }}</span>
+                    <div class="col-md-12">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <!-- Bootstrap core JavaScript-->
 <script src="vendor/jquery/jquery.min.js"></script>
 <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -479,7 +427,6 @@
 <script src="js/demo/datatables-demo.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        console.log("karanzi");
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -497,11 +444,33 @@
                 cache:false,
                 contentType: false,
                 processData: false,
+                beforeSend: function(){
+                        // Show image container
+                        $("#loader_upload").show();
+                    },
                 success: function (response) {
+                    if(response == 0) {
+                      $('.uploadMessage').css("margin-top", "10px");
+                      $('.uploadMessage').addClass("alert alert-success");
+                      $('.uploadMessage').text("Data has been uploaded successfully");
+                      $('.uploadMessage').show();
+                    } else {
+                      $('.uploadMessage').css("margin-top", "10px");
+                      $('.uploadMessage').addClass("alert alert-danger");
+                      $('.uploadMessage').text("Data has failed to upload. Please Try again later");
+                      $('.uploadMessage').show();
+                    }
                     console.log(response);
-                    $('#uploadContacts').modal('hide');
-                    Window.location.href = location.href;
+
                 },
+                complete:function(data){
+                    // Hide image container
+                    $("#loader_upload").hide();
+                    setTimeout( () => {
+                        $('#sendMessage').modal('hide');
+                        window.location.href = location.href;
+                    }, 5000);
+                    },
                 err: function(repsonse) {
                     console.log(response);
                 }
@@ -517,7 +486,41 @@
         });
 
         $('#message_push').submit(function() {
-            console.log("submit")
+            var users = {!! json_encode($congregation->toArray()) !!}
+            contacts = users.data;
+            message = $('#message').val();
+             $.ajax({
+                 type: 'POST',
+                 url: "{{ url('send_message') }}",
+                 data: {message, contacts},
+                 beforeSend: function(){
+                        // Show image container
+                        $("#loader").show();
+                    },
+                 success: function(response) {
+                   if(response == 0){
+                      $('.messageType').css("margin-top", "10px");
+                      $('.messageType').addClass("alert alert-success");
+                      $('.messageType').text("Message(s) have been sent successfully");
+                      $('.messageType').show();
+                   } else {
+                     $('.messageType').css("margin-top", "10px");
+                      $('.messageType').addClass("alert alert-warning");
+                      $('.messageType').text("Message(s) have not been sent successfully. Try again later");
+                      $('.messageType').show();
+                   }
+                 },
+                 complete:function(data){
+                    // Hide image container
+                    $("#loader").hide();
+                    setTimeout( () => {
+                        $('#sendMessage').modal('hide');
+                    }, 3000);
+                    },
+                 err: function() {
+
+                 }
+             });
         });
 
         $(".selectAll").click(function(e){
