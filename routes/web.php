@@ -6,7 +6,7 @@ Route::get('export', 'MyController@export')->name('export');
 Route::get('importExportView', 'MyController@importExportView');
 Route::post('import', 'MyController@import')->name('import');
 
-Route::get('/','CongregationController@importExport')->name('home');
+Route::get('/','HomeController@getAll')->name('dashboard');
 Route::get('getUsers/index-sorting', 'CongregationController@sort');
 Route::get('filter', 'CongregationController@indexFiltering');
 Route::any('filters', 'CongregationController@filters')->name('filters');
@@ -28,7 +28,7 @@ Route::post('send','SendSmsController@sendSms')->name('send');
 
 Route::get('/ss', 'ChurchUser@importExportView');
 Route::post('importUser', 'ChurchUser@import')->name('importUser');
-Route::post('read', 'SendSmsController@import');
+Route::post('read', 'SendSmsController@import')->name('read');
 // Route::post('read', 'SendSmsController@read')->name('read');
 
 //student
@@ -43,3 +43,6 @@ Route::get('contact', 'SendSmsController@addContact')->name('contact');
 Route::post('book', 'SendSmsController@userBooking')->name('book');
 Route::get('getAll', 'HomeController@getAll')->name('congregation');
 Route::post('send_message', 'SendSmsController@getContacts');
+
+Route::post('saveUser', 'CongregationController@store')->name('saveUser');
+Route::get('addUser', 'CongregationController@create')->name('addUser');

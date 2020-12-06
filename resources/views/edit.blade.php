@@ -1,5 +1,4 @@
-{{-- @extends('layouts.app')
- --}}
+
  @extends('generic.mysidebar')
  @section('content')
  <div class="card-header py-3">

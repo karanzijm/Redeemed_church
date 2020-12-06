@@ -32,7 +32,7 @@
             margin: 10px;
             color: #4A6EDB
         }
-        </style>
+    </style>
 
 </head>
 
@@ -61,11 +61,13 @@
                 <i class="fas fa-fw fa-tachometer-alt"></i>
                 <span>Dashboard</span></a>
         </li>
-        {{-- <li class="nav-item">
+        {{--
+        <li class="nav-item">
             <a class="nav-link" href="{{ route('home') }}">
                 <i class="fas fa-fw fa-envelope"></i>
                 <span>Messages</span></a>
-        </li> --}}
+        </li>
+        --}}
         <li class="nav-item">
             <a class="nav-link" href="#">
                 <i class="fas fa-fw fa-address-book"></i>
@@ -163,11 +165,11 @@
                 @enderror
                 <div class="col-sm-12">
 
-                  @if(session()->get('success'))
+                    @if(session()->get('success'))
                     <div class="alert alert-success">
-                      {{ session()->get('success') }}
+                        {{ session()->get('success') }}
                     </div>
-                  @endif
+                    @endif
                 </div>
 
                 <!-- DataTales Example -->
@@ -177,78 +179,85 @@
                         <form class="form-inline" method="POST" action="{{ route('filters') }}">
                             @csrf
                             <div class="form-group mb-2">
-                              <label for="filter" class="col-sm-2 col-form-label mx-3">Show</label>
-                              <select class="form-control" name="paginate">
-                                <option value="10">10</option>
-                                <option value="50">50</option>
-                                <option value="200">200</option>
-                                <option value="1000">1000</option>
-                                <option value="5000">5000</option>
-                                <option value="10000">10000</option>
-                              </select>
+                                <label for="filter" class="col-sm-2 col-form-label mx-3">Show</label>
+                                <select class="form-control" name="paginate">
+                                    <option value="10">10</option>
+                                    <option value="50">50</option>
+                                    <option value="200">200</option>
+                                    <option value="1000">1000</option>
+                                    <option value="5000">5000</option>
+                                    <option value="10000">10000</option>
+                                </select>
                             </div>
-                              <div class="form-group mb-2">
+                            <div class="form-group mb-2">
                                 <label for="filter" class="col-sm-2 col-form-label mx-3">Search</label>
-                                <input type="text" class="form-control" id="filter" name="filter" placeholder="name,email,contact..." value="{{$filter ?? ''}}">
-                              </div>
-                              <button type="submit" class="btn btn-primary mb-2">Search</button>
-                            </form>
-                          {{-- end filter --}}
+                                <input type="text" class="form-control" id="filter" name="filter"
+                                       placeholder="name,email,contact..." value="{{$filter ?? ''}}">
+                            </div>
+                            <button type="submit" class="btn btn-primary mb-2">Search</button>
+                        </form>
+                        {{-- end filter --}}
 
-                            <div class="table-responsive">
-                                <div class="links">
-                                    <a href="#"><i class="fa fa-user-plus linked"></i><a>
+                        <div class="table-responsive">
+                            <div class="links">
+                                <a href="{{ route('addUser') }}"><i class="fa fa-user-plus linked"></i><a>
                                         <i data-toggle="modal" data-target="#uploadContacts"
-                                        class="fa fa-upload linked"></i>
-                                            <i data-toggle="modal" data-target="#sendMessage" class="fa fa-envelope-square linked"></i>
-                                </div>
-                                <form method="POST" action="{{ route('send') }}" enctype="multipart/form-data">
+                                           class="fa fa-upload linked"></i>
+                                        <i data-toggle="modal" data-target="#sendMessage"
+                                           class="fa fa-envelope-square linked"></i>
+                            </div>
+                            <form method="POST" action="{{ route('send') }}" enctype="multipart/form-data">
                                 @csrf
 
-                                  <table class="table table-bordered">
+                                <table class="table table-bordered">
                                     <thead>
-                                      <tr>
+                                    <tr>
                                         <th><input type="checkbox" class="selectAll" onclick()="selectAll()"></th>
                                         <th>Name</th>
-                                    <th>Email</th>
-                                    <th>Phone Number</th>
-                                    <th>Watsup Number</th>
-                                    <th>Home Cell</th>
-                                    <th>Action</th>
-                                      </tr>
+                                        <th>Email</th>
+                                        <th>Phone Number</th>
+                                        <th>Watsup Number</th>
+                                        <th>Home Cell</th>
+                                        <th>Action</th>
+                                    </tr>
                                     </thead>
                                     <tbody>
                                     @if ($congregation->count() == 0)
-                                  <tr>
-                                      <td colspan="7">No Results available.</td>
-                                  </tr>
-                                  @endif
-                                      @foreach($congregation as $user)
-                                        <tr id="tr_{{$user->phone_number}}">
-                                          <td><input data-id="{{$user->phone_number}}" value="{{$user->id}}" class="sub_chk" type="checkbox" name="selected_values[]">
-                                          <td>{{$user->name}}</td>
-                                          <td>{{$user->email}}</td>
-                                          <td>{{$user->phone_number}}</td>
-                                          <td>{{$user->watsup_number}}</td>
-                                          <td>{{$user->home_cell}}</td>
-                                          <td>
-                                              <a href="{{ route('edit',$user->id) }}" class="edit btn btn-success btn-sm">Edit</a>
-                                              <a href="#" data-toggle="modal" data-id="{{$user->id}}" data-url="{!! URL::route('delete',$user->id) !!}" data-target="#deleteModal" class="delete btn btn-danger btn-sm">Delete</a>
-                                            </td>
-                                        </tr>
+                                    <tr>
+                                        <td colspan="7">No Results available.</td>
+                                    </tr>
+                                    @endif
+                                    @foreach($congregation as $user)
+                                    <tr id="tr_{{$user->phone_number}}">
+                                        <td><input data-id="{{$user->phone_number}}" value="{{$user->id}}"
+                                                   class="sub_chk" type="checkbox" name="selected_values[]">
+                                        <td>{{$user->name}}</td>
+                                        <td>{{$user->email}}</td>
+                                        <td>{{$user->phone_number}}</td>
+                                        <td>{{$user->watsup_number}}</td>
+                                        <td>{{$user->home_cell}}</td>
+                                        <td>
+                                            <a href="{{ route('edit',$user->id) }}" class="edit btn btn-success btn-sm">Edit</a>
+<!--                                            <a href="#" data-toggle="modal" data-id="{{$user->id}}"-->
+<!--                                               data-url="{!! URL::route('delete',$user->id) !!}"-->
+<!--                                               data-target="#deleteModal"-->
+<!--                                               class="delete_user btn btn-danger btn-sm">Delete</a>-->
+                                        </td>
+                                    </tr>
 
-                                      @endforeach
+                                    @endforeach
 
                                     </tbody>
-                                  </table>
-                                  {{-- <button type="submit" name="submit">Here</button>
+                                </table>
+                                {{--
+                                <button type="submit" name="submit">Here</button>
                                 <a href="{{ route('read') }}" class="btn btn-success btn-sm">Read File</a> --}}
-                                      </form>
-                                      {!! $congregation->appends(Request::except('page'))->render() !!}
-                                      <p>
-                                        Displaying {{$congregation->count()}} of {{ $congregation->total() }} user(s).
-                                    </p>
-                              </div>
+                            </form>
+                            {!! $congregation->appends(Request::except('page'))->render() !!}
+                            <p>
+                                Displaying {{$congregation->count()}} of {{ $congregation->total() }} user(s).
+                            </p>
+                        </div>
 
                     </div>
                 </div>
@@ -301,28 +310,32 @@
     </div>
 </div>
 
-           <!-- Delete Warning Modal -->
-           <form action="" method="POST" class="remove-record-model">
-            <div id="deleteModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="deleteLabel" aria-hidden="true" style="display: none;">
-                <div class="modal-dialog" style="width:55%;">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                          <h4 class="modal-title" id="deleteLabel">Confirm Delete Record</h4>
+<!-- Delete Warning Modal -->
+<form action="" method="POST" class="remove-record-model">
+    <div id="deleteModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="deleteLabel"
+         aria-hidden="true" style="display: none;">
+        <div class="modal-dialog" style="width:55%;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="deleteLabel">Confirm Delete Record</h4>
 
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                        </div>
-                        <div class="modal-body">
-                            <h4>Are You Sure You want to Delete This Record?</h4>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default waves-effect remove-data-from-delete-form" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-danger waves-effect waves-light">Delete</button>
-                        </div>
-                    </div>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                </div>
+                <div class="modal-body">
+                    <h4>Are You Sure You want to Delete This Record?</h4>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default waves-effect remove-data-from-delete-form"
+                            data-dismiss="modal">Close
+                    </button>
+                    <button type="submit" class="btn btn-danger waves-effect waves-light">Delete</button>
                 </div>
             </div>
-        </form>
-  <!-- End Delete Modal -->
+        </div>
+    </div>
+</form>
+<!-- End Delete Modal -->
 
 <!-- Send Message Modal-->
 <div class="modal fade" id="sendMessage" tabindex="-1" role="dialog" aria-labelledby="uploadContacts"
@@ -337,29 +350,31 @@
             </div>
             <div class="modal-body">
 
-            <!-- Image loader -->
-            <div id='loader' style='display: none;'>
-                <img src='{{ asset('images/reload.gif') }}' width='32px' height='32px'>
-            </div>
-            <!-- END Image loader -->
+                <!-- Image loader -->
+                <div id='loader' style='display: none;'>
+                    <img src='{{ asset(' images/reload.gif') }}' width='32px' height='32px'>
+                </div>
+                <!-- END Image loader -->
 
-              <div class="messageType"></div>
-                <form id="message_push" action="javascript:void(0)" method="POST" enctype="multipart/form-data" class="p-5 bg-white">
+                <div class="messageType"></div>
+                <form id="message_push" action="javascript:void(0)" method="POST" enctype="multipart/form-data"
+                      class="p-5 bg-white">
                     @csrf
 
-                  <div class="row form-group">
-                    <div class="col-md-12">
-                      <label class="font-weight-bold" for="message">Message</label>
-                      <textarea name="message" id="message" cols="30" rows="5" class="form-control" placeholder="Add Message to send"></textarea>
-                      <p id="message_character"></p>
+                    <div class="row form-group">
+                        <div class="col-md-12">
+                            <label class="font-weight-bold" for="message">Message</label>
+                            <textarea name="message" id="message" cols="30" rows="5" class="form-control"
+                                      placeholder="Add Message to send"></textarea>
+                            <p id="message_character"></p>
+                        </div>
                     </div>
-                  </div>
 
-                  <div class="row form-group">
-                    <div class="col-md-12">
-                      <input type="submit" value="Send Message" class="btn btn-primary pill px-4 py-2">
+                    <div class="row form-group">
+                        <div class="col-md-12">
+                            <input type="submit" value="Send Message" class="btn btn-primary pill px-4 py-2">
+                        </div>
                     </div>
-                  </div>
 
 
                 </form>
@@ -385,19 +400,20 @@
             </div>
             <div class="modal-body">
                 <!-- Image loader -->
-            <div id='loader_upload' style='display: none;'>
-                <img src='{{ asset('images/reload.gif') }}' width='32px' height='32px'>
-            </div>
-            <!-- END Image loader -->
-              <div class="uploadMessage"></div>
-                <form method="POST" enctype="multipart/form-data" class="p-5 bg-white file_upload" action="javascript:void(0)">
+                <div id='loader_upload' style='display: none;'>
+                    <img src='{{ asset(' images/reload.gif') }}' width='32px' height='32px'>
+                </div>
+                <!-- END Image loader -->
+                <div class="uploadMessage"></div>
+                <form method="POST" enctype="multipart/form-data" class="p-5 bg-white file_upload"
+                      action="javascript:void(0)">
 
                     @csrf
                     <input type="file" name="file" class="form-control">
                     <span class="text-danger">{{ $errors->first('file') }}</span>
                     <div class="col-md-12">
                         <button type="submit" class="btn btn-primary">Submit</button>
-                        </div>
+                    </div>
                 </form>
 
             </div>
@@ -427,6 +443,12 @@
 <script src="js/demo/datatables-demo.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
+        window.setTimeout(function() {
+            $(".alert").fadeTo(1000, 0).slideUp(1000, function(){
+                $(this).remove();
+            });
+        }, 5000);
+
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -441,37 +463,37 @@
                 type: 'POST',
                 url: "{{ url('read') }}",
                 data: formData,
-                cache:false,
+                cache: false,
                 contentType: false,
                 processData: false,
-                beforeSend: function(){
-                        // Show image container
-                        $("#loader_upload").show();
-                    },
+                beforeSend: function () {
+                    // Show image container
+                    $("#loader_upload").show();
+                },
                 success: function (response) {
-                    if(response == 0) {
-                      $('.uploadMessage').css("margin-top", "10px");
-                      $('.uploadMessage').addClass("alert alert-success");
-                      $('.uploadMessage').text("Data has been uploaded successfully");
-                      $('.uploadMessage').show();
+                    if (response == 0) {
+                        $('.uploadMessage').css("margin-top", "10px");
+                        $('.uploadMessage').addClass("alert alert-success");
+                        $('.uploadMessage').text("Data has been uploaded successfully");
+                        $('.uploadMessage').show();
                     } else {
-                      $('.uploadMessage').css("margin-top", "10px");
-                      $('.uploadMessage').addClass("alert alert-danger");
-                      $('.uploadMessage').text("Data has failed to upload. Please Try again later");
-                      $('.uploadMessage').show();
+                        $('.uploadMessage').css("margin-top", "10px");
+                        $('.uploadMessage').addClass("alert alert-danger");
+                        $('.uploadMessage').text("Data has failed to upload. Please Try again later");
+                        $('.uploadMessage').show();
                     }
                     console.log(response);
 
                 },
-                complete:function(data){
+                complete: function (data) {
                     // Hide image container
                     $("#loader_upload").hide();
-                    setTimeout( () => {
+                    setTimeout(() => {
                         $('#sendMessage').modal('hide');
                         window.location.href = location.href;
                     }, 5000);
-                    },
-                err: function(repsonse) {
+                },
+                err: function (repsonse) {
                     console.log(response);
                 }
 
@@ -479,68 +501,70 @@
             ;
         });
 
-        $('#message').keyup(function() {
+        $('#message').keyup(function () {
             var words = $.trim($('#message').val()).split("");
-            var message = words.length +" characters, "+((Math.floor(words.length/160))+1) +" message(s)";
+            var message = words.length + " characters, " + ((Math.floor(words.length / 160)) + 1) + " message(s)";
             $('#message_character').html(message);
         });
 
-        $('#message_push').submit(function() {
-            var users = {!! json_encode($congregation->toArray()) !!}
+        $('#message_push').submit(function () {
+            var users = { !! json_encode($congregation->toArray()) !!
+        }
             contacts = users.data;
             message = $('#message').val();
-             $.ajax({
-                 type: 'POST',
-                 url: "{{ url('send_message') }}",
-                 data: {message, contacts},
-                 beforeSend: function(){
-                        // Show image container
-                        $("#loader").show();
-                    },
-                 success: function(response) {
-                   if(response == 0){
-                      $('.messageType').css("margin-top", "10px");
-                      $('.messageType').addClass("alert alert-success");
-                      $('.messageType').text("Message(s) have been sent successfully");
-                      $('.messageType').show();
-                   } else {
-                     $('.messageType').css("margin-top", "10px");
-                      $('.messageType').addClass("alert alert-warning");
-                      $('.messageType').text("Message(s) have not been sent successfully. Try again later");
-                      $('.messageType').show();
-                   }
-                 },
-                 complete:function(data){
+            $.ajax({
+                type: 'POST',
+                url: "{{ url('send_message') }}",
+                data: {message, contacts},
+                beforeSend: function () {
+                    // Show image container
+                    $("#loader").show();
+                },
+                success: function (response) {
+                    if (response == 0) {
+                        $('.messageType').css("margin-top", "10px");
+                        $('.messageType').addClass("alert alert-success");
+                        $('.messageType').text("Message(s) have been sent successfully");
+                        $('.messageType').show();
+                    } else {
+                        $('.messageType').css("margin-top", "10px");
+                        $('.messageType').addClass("alert alert-warning");
+                        $('.messageType').text("Message(s) have not been sent successfully. Try again later");
+                        $('.messageType').show();
+                    }
+                },
+                complete: function (data) {
                     // Hide image container
                     $("#loader").hide();
-                    setTimeout( () => {
+                    setTimeout(() => {
                         $('#sendMessage').modal('hide');
                     }, 3000);
-                    },
-                 err: function() {
+                },
+                err: function () {
 
-                 }
-             });
+                }
+            });
         });
 
-        $(".selectAll").click(function(e){
-        if($(this).is(':checked', true)){
-            $(".sub_chk").prop('checked',true);
-        }else{
-          $(".sub_chk").prop('checked',false);
-        }
-  });
+        $(".selectAll").click(function (e) {
+            if ($(this).is(':checked', true)) {
+                $(".sub_chk").prop('checked', true);
+            } else {
+                $(".sub_chk").prop('checked', false);
+            }
+        });
 
-  $('.delete').click(function (){
-    var id = $(this).attr('data-id');
-		var url = $(this).attr('data-url');
-		var token = CSRF_TOKEN;
-    $(".delete").attr("action",url);
-		$('body').find('.delete').append('<input name="_token" type="hidden" value="'+ token +'">');
-		$('body').find('.delete').append('<input name="_method" type="hidden" value="DELETE">');
-		$('body').find('.delete').append('<input name="id" type="text" value="'+ id +'">');
+        $('.delete_user').click(function () {
+            console.log("deleting");
+            var id = $(this).attr('data-id');
+            var url = $(this).attr('data-url');
+            var token = CSRF_TOKEN;
+            $(".delete").attr("action", url);
+            $('body').find('.delete').append('<input name="_token" type="hidden" value="' + token + '">');
+            $('body').find('.delete').append('<input name="_method" type="hidden" value="DELETE">');
+            $('body').find('.delete').append('<input name="id" type="text" value="' + id + '">');
 
-  });
+        });
     });
 </script>
 

@@ -14,294 +14,323 @@ use Yajra\DataTables\Datatables;
 
 class CongregationController extends Controller
 {
-    private $filter=null;
+    private $filter = null;
+
     public function __construct()
     {
-        $this->middleware('auth',['except' => ['importExport']]);
+        $this->middleware('auth', ['except' => ['importExport']]);
         // $this->par = 'ka';
     }
 
     public function importExport()
-            {
-                return view('generic.home');
-                // return view('generic.table');
-            }
+    {
+        return view('generic.home');
+        // return view('generic.table');
+    }
 
-            public function export()
-            {
-                return Excel::download(new CongregationExport, 'Congregation.xlsx');
-            }
+    public function export()
+    {
+        return Excel::download(new CongregationExport, 'Congregation.xlsx');
+    }
 
-            public function import()
-            {
-                // dd(request()->file('file'));
-                Excel::import(new CongregationImport, request()->file('file'));
+    public function import()
+    {
+        // dd(request()->file('file'));
+        Excel::import(new CongregationImport, request()->file('file'));
 
-                return back();
-            }
+        return back();
+    }
 
-            //show all on the view
-            public function showAll()
-            {
-                // $users = DB::table('congregations')->paginate('10');
-                $users = Church::select('*')->where('status','1')->paginate(10);
-                return view('view',['users' => $users]);
+    //show all on the view
+    public function showAll()
+    {
+        // $users = DB::table('congregations')->paginate('10');
+        $users = Church::select('*')->where('status', '1')->paginate(10);
+        return view('view', ['users' => $users]);
 
 
+    }
 
-            }
+    public function create()
+    {
+            return view('forms.add', ['title' => 'Redeemed Church']);
+    }
 
-            //edit
-            public function edit($id, $action = null, Request $request){
-                // dd($action);
-                if($action != null){
-                    $user = Church::find($id);
-                    $user->name = $request->get('name');
-                    $user->email = $request->get('email');
-                    $user->contact = $request->get('phone_number');
-                    $user->location = $request->get('watsup_number');
-                    $user->home_cell = $request->get('home_cell');
-                    $user->marital_status = $request->get('marital_status');
-                    $user->no_of_children = $request->get('no_of_children');
-                    $user->age = $request->get('age');
-                    $user->gender = $request->get('gender');
-                    $aa = $user->save();
-                    return redirect('/getUsers');
-                } else{
-                    return view('edit',['user' => Church::find($id),'title'=>'Redeemed Church']);
+    public function store(Request $request)
+    {
+        //validate
+        $validatedData = $this->validate($request, [
+            'name' => ['required'],
+            'phone_number' => ['required', 'regex:/^2567[0|5|7|8|9]{1}[0-9]{7}$/'],
+            'email' => ['nullable', 'email:rfc,dns'],
+        ]);
+        $user = new Church([
+            'name' => $request->get('name'),
+            'email' => $request->get('email'),
+            'phone_number' => $request->get('phone_number'),
+            'watsup_number' => $request->get('watsup_number'),
+            'home_cell' => $request->get('home_cell'),
+            'marital_status' => $request->get('marital_status'),
+            'no_of_children' => $request->get('no_of_children'),
+            'age' => $request->get('age'),
+            'gender' => $request->get('gender'),
 
-                }
+        ]);
+        $aa = $user->save();
+        return redirect('/')->with('success','Addition Sucessfull');
+    }
 
-            }
+    //edit
+    public function edit($id, $action = null, Request $request)
+    {
+        // dd($action);
+        if ($action != null) {
+            $user = Church::find($id);
+            $user->name = $request->get('name');
+            $user->email = $request->get('email');
+            $user->phone_number = $request->get('phone_number');
+            $user->watsup_number = $request->get('watsup_number');
+            $user->home_cell = $request->get('home_cell');
+            $user->marital_status = $request->get('marital_status');
+            $user->no_of_children = $request->get('no_of_children');
+            $user->age = $request->get('age');
+            $user->gender = $request->get('gender');
+            $aa = $user->save();
+            return redirect('/');
+        } else {
+            return view('edit', ['user' => Church::find($id), 'title' => 'Redeemed Church']);
 
-            public function delete($id){
-                $user = Church::find($id);
-                $user->status = 0;
-                $user->save();
-                return redirect('/getUsers');
-             }
+        }
 
-            public function send()
-            {
-                $numbers = request('selected_values');
-                if(!$numbers)
-                return redirect()
+    }
+
+    public function delete($id)
+    {
+        $user = Church::find($id);
+        $user->status = 0;
+        $user->save();
+        return redirect('/getUsers');
+    }
+
+    public function send()
+    {
+        $numbers = request('selected_values');
+        if (!$numbers)
+            return redirect()
                 ->back()
                 ->withInput()
                 ->withErrors('error', 'There was a failure while sending the message!');
 
-                return view('numbers',['numbers' => $numbers]);
-            }
+        return view('numbers', ['numbers' => $numbers]);
+    }
 
-            public function sort()
-            {
-                $users = Church::sortable()->paginate(5);
-                return view('view',['users' => $users]);
+    public function sort()
+    {
+        $users = Church::sortable()->paginate(5);
+        return view('view', ['users' => $users]);
 
-            }
+    }
 
-            public function indexFiltering(Request $request)
-             {
-                    $filter = $request->query('filter');
+    public function indexFiltering(Request $request)
+    {
+        $filter = $request->query('filter');
 
-                    if (!empty($filter)) {
-                        $users = Church::sortable()
-                            ->where('name', 'like', '%'.$filter.'%')
-                            ->orWhere('email', 'like', '%'.$filter.'%')
-                            ->orWhere('contact', 'like', '%'.$filter.'%')
-                            ->orWhere('location', 'like', '%'.$filter.'%')
-                            ->orWhere('home_cell', 'like', '%'.$filter.'%')
-                            ->paginate(10);
-                    } else {
-                        $users = Church::sortable()
-                            ->paginate(5);
-                    }
-
-                    return view('view')->with('users', $users)->with('filter', $filter);
-                }
-
-        public function indexDatatables()
-        {
-            return view('welcome');
+        if (!empty($filter)) {
+            $users = Church::sortable()
+                ->where('name', 'like', '%' . $filter . '%')
+                ->orWhere('email', 'like', '%' . $filter . '%')
+                ->orWhere('contact', 'like', '%' . $filter . '%')
+                ->orWhere('location', 'like', '%' . $filter . '%')
+                ->orWhere('home_cell', 'like', '%' . $filter . '%')
+                ->paginate(10);
+        } else {
+            $users = Church::sortable()
+                ->paginate(5);
         }
 
-        public function index(Request $request){
-            if ($request->ajax()) {
-                $data = Church::latest()->get();
-                return Datatables::of($data)
-                    ->addIndexColumn()
-                    ->addColumn('action', function($row){
-                        $btn = '<a href="javascript:void(0)" class="edit btn btn-success btn-sm">Edit</a> <a href="javascript:void(0)" class="delete btn btn-danger btn-sm">Delete</a>';
-                        return $btn;
-                    })
-                    ->rawColumns(['action'])
-                    ->make(true);
-            }
+        return view('view')->with('users', $users)->with('filter', $filter);
+    }
 
-            return view('welcome');
+    public function indexDatatables()
+    {
+        return view('welcome');
+    }
+
+    public function index(Request $request)
+    {
+        if ($request->ajax()) {
+            $data = Church::latest()->get();
+            return Datatables::of($data)
+                ->addIndexColumn()
+                ->addColumn('action', function ($row) {
+                    $btn = '<a href="javascript:void(0)" class="edit btn btn-success btn-sm">Edit</a> <a href="javascript:void(0)" class="delete btn btn-danger btn-sm">Delete</a>';
+                    return $btn;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
         }
 
-        public function filters(Request $request){
+        return view('welcome');
+    }
 
-            $this->filter = $request->input('filter');
-            $paginate = $request->input('paginate');
-            // $orQuery =
-            if (!empty($this->filter)) {
-                // dd($this->par);
-                $users = Church::select('*')
-                    ->where('status',1)
-                    ->where(function($query){
-                        $query->where('name', 'like', '%'.$this->filter.'%')
-                              ->orWhere('email', 'like', '%'.$this->filter.'%')
-                              ->orWhere('phone_number', 'like', '%'.$this->filter.'%')
-                              ->orWhere('watsup_number', 'like', '%'.$this->filter.'%')
-                              ->orWhere('home_cell', 'like', '%'.$this->filter.'%');
+    public function filters(Request $request)
+    {
 
-                    })
+        $this->filter = $request->input('filter');
+        $paginate = $request->input('paginate');
+        // $orQuery =
+        if (!empty($this->filter)) {
+            // dd($this->par);
+            $users = Church::select('*')
+                ->where('status', 1)
+                ->where(function ($query) {
+                    $query->where('name', 'like', '%' . $this->filter . '%')
+                        ->orWhere('email', 'like', '%' . $this->filter . '%')
+                        ->orWhere('phone_number', 'like', '%' . $this->filter . '%')
+                        ->orWhere('watsup_number', 'like', '%' . $this->filter . '%')
+                        ->orWhere('home_cell', 'like', '%' . $this->filter . '%');
 
-                    ->paginate($paginate);
-            } else {
-                $users = Church::select('*')->where('status',1)
-                    ->paginate($paginate);
-            }
-            return view('generic.table',['congregation'=>$users]);
+                })
+                ->paginate($paginate);
+        } else {
+            $users = Church::select('*')->where('status', 1)
+                ->paginate($paginate);
+        }
+        return view('generic.table', ['congregation' => $users]);
+    }
+
+    public function userDataSource(Request $request)
+    {
+
+        ## Read value
+        $draw = $request->get('draw');
+        $start = $request->get("start");
+        $rowperpage = $request->get("length"); // Rows display per page
+
+        $columnIndex_arr = $request->get('order');
+        $columnName_arr = $request->get('columns');
+        $order_arr = $request->get('order');
+        $search_arr = $request->get('search');
+
+        $columnIndex = $columnIndex_arr[0]['column']; // Column index
+        $columnName = $columnName_arr[$columnIndex]['data']; // Column name
+        $columnSortOrder = $order_arr[0]['dir']; // asc or desc
+        $searchValue = $search_arr['value']; // Search value
+
+        // Total records
+        $totalRecords = Church::select('count(*) as allcount')->count();
+        $totalRecordswithFilter = Church::select('count(*) as allcount')
+            ->where('name', 'like', '%' . $searchValue . '%')
+            ->orWhere('email', 'like', '%' . $searchValue . '%')
+            ->orWhere('phone_number', 'like', '%' . $searchValue . '%')
+            ->orWhere('watsup_number', 'like', '%' . $searchValue . '%')
+            ->orWhere('home_cell', 'like', '%' . $searchValue . '%')
+            ->count();
+
+        // Fetch records
+        $records = Church::orderBy($columnName, $columnSortOrder)
+            ->where('name', 'like', '%' . $searchValue . '%')
+            ->orWhere('email', 'like', '%' . $searchValue . '%')
+            ->orWhere('phone_number', 'like', '%' . $searchValue . '%')
+            ->orWhere('watsup_number', 'like', '%' . $searchValue . '%')
+            ->orWhere('home_cell', 'like', '%' . $searchValue . '%')
+            ->select('*')
+            ->skip($start)
+            ->take($rowperpage)
+            ->get();
+
+        $data_arr = array();
+        $sno = $start + 1;
+        foreach ($records as $record) {
+            $name = $record->name;
+            $email = $record->email;
+            $phone_number = $record->phone_number;
+            $watsup_number = $record->watsup_number;
+            $home_cell = $record->home_cell;
+
+            $data_arr[] = array(
+                "name" => $name,
+                "email" => $email,
+                "phone_number" => $phone_number,
+                "watsup_number" => $watsup_number,
+                "home_cell" => $home_cell,
+            );
         }
 
-        public function userDataSource(Request $request) {
+        $response = array(
+            "draw" => intval($draw),
+            "iTotalRecords" => $totalRecords,
+            "iTotalDisplayRecords" => $totalRecordswithFilter,
+            "aaData" => $data_arr
+        );
 
-                ## Read value
-                $draw = $request->get('draw');
-                $start = $request->get("start");
-                $rowperpage = $request->get("length"); // Rows display per page
-
-                $columnIndex_arr = $request->get('order');
-                $columnName_arr = $request->get('columns');
-                $order_arr = $request->get('order');
-                $search_arr = $request->get('search');
-
-                $columnIndex = $columnIndex_arr[0]['column']; // Column index
-                $columnName = $columnName_arr[$columnIndex]['data']; // Column name
-                $columnSortOrder = $order_arr[0]['dir']; // asc or desc
-                $searchValue = $search_arr['value']; // Search value
-
-                // Total records
-                $totalRecords = Church::select('count(*) as allcount')->count();
-                $totalRecordswithFilter = Church::select('count(*) as allcount')
-                                               ->where('name', 'like', '%' .$searchValue . '%')
-                                               ->orWhere('email', 'like', '%'.$searchValue.'%')
-                                                ->orWhere('phone_number', 'like', '%'.$searchValue.'%')
-                                                ->orWhere('watsup_number', 'like', '%'.$searchValue.'%')
-                                                ->orWhere('home_cell', 'like', '%'.$searchValue.'%')
-                                               ->count();
-
-                // Fetch records
-                $records = Church::orderBy($columnName,$columnSortOrder)
-                ->where('name', 'like', '%' .$searchValue . '%')
-                ->orWhere('email', 'like', '%'.$searchValue.'%')
-                ->orWhere('phone_number', 'like', '%'.$searchValue.'%')
-                ->orWhere('watsup_number', 'like', '%'.$searchValue.'%')
-                ->orWhere('home_cell', 'like', '%'.$searchValue.'%')
-                ->select('*')
-                ->skip($start)
-                ->take($rowperpage)
-                ->get();
-
-                $data_arr = array();
-                $sno = $start+1;
-                foreach($records as $record){
-                    $name = $record->name;
-                    $email = $record->email;
-                    $phone_number = $record->phone_number;
-                    $watsup_number = $record->watsup_number;
-                    $home_cell = $record->home_cell;
-
-                    $data_arr[] = array(
-                    "name" => $name,
-                    "email" => $email,
-                    "phone_number" => $phone_number,
-                    "watsup_number" => $watsup_number,
-                    "home_cell" => $home_cell,
-                    );
-                }
-
-                $response = array(
-                    "draw" => intval($draw),
-                    "iTotalRecords" => $totalRecords,
-                    "iTotalDisplayRecords" => $totalRecordswithFilter,
-                    "aaData" => $data_arr
-                );
-
-                echo json_encode($response);
-                exit;
+        echo json_encode($response);
+        exit;
 
 
+        // var_dump($request);
+
+        // $search = $request->query('search', array('value' => '', 'regex' => false));
+        // $draw = $request->query('draw', 0);
+        // $start = $request->query('start', 0);
+        // $length = $request->query('length', 25);
+        // $order = $request->query('order', array(1, 'asc'));
+
+        // $filter = $search['value'];
+        // var_dump($filter);
+
+        // $sortColumns = array(
+        //     0 => 'name',
+        //     1 => 'email',
+        //     2 => 'contact',
+        //     3 => 'location',
+        //     4 => 'home_cell'
+        // );
+
+        // $query = Congregation::select('name', 'email', 'location', 'contact', 'home_cell', 'marital_status',
+        // 'no_of_children');
 
 
+        // if (!empty($filter)) {
+        //     $query->where('name', 'like', '%'.$filter.'%')
+        //             ->orWhere('email', 'like', '%'.$filter.'%')
+        //             ->orWhere('contact', 'like', '%'.$filter.'%')
+        //             ->orWhere('location', 'like', '%'.$filter.'%')
+        //             ->orWhere('home_cell', 'like', '%'.$filter.'%');
 
-            // var_dump($request);
+        // }
 
-            // $search = $request->query('search', array('value' => '', 'regex' => false));
-            // $draw = $request->query('draw', 0);
-            // $start = $request->query('start', 0);
-            // $length = $request->query('length', 25);
-            // $order = $request->query('order', array(1, 'asc'));
+        // $recordsTotal = $query->count();
 
-            // $filter = $search['value'];
-            // var_dump($filter);
+        // $sortColumnName = $sortColumns[$order[0]['column']];
 
-            // $sortColumns = array(
-            //     0 => 'name',
-            //     1 => 'email',
-            //     2 => 'contact',
-            //     3 => 'location',
-            //     4 => 'home_cell'
-            // );
+        // $query->orderBy($sortColumnName, $order[0]['dir'])
+        //         ->take($length)
+        //         ->skip($start);
 
-            // $query = Congregation::select('name', 'email', 'location', 'contact', 'home_cell', 'marital_status',
-            // 'no_of_children');
+        // $json = array(
+        //     'draw' => $draw,
+        //     'recordsTotal' => $recordsTotal,
+        //     'recordsFiltered' => $recordsTotal,
+        //     'data' => [],
+        // );
 
+        // $users = $query->get();
 
+        // foreach ($users as $user) {
 
-            // if (!empty($filter)) {
-            //     $query->where('name', 'like', '%'.$filter.'%')
-            //             ->orWhere('email', 'like', '%'.$filter.'%')
-            //             ->orWhere('contact', 'like', '%'.$filter.'%')
-            //             ->orWhere('location', 'like', '%'.$filter.'%')
-            //             ->orWhere('home_cell', 'like', '%'.$filter.'%');
+        //     $json['data'][] = [
+        //         $user->name,
+        //         $user->email,
+        //         $user->contact,
+        //         $user->location,
+        //         $user->home_cell,
+        //         $user->marital_status,
+        //         $user->no_of_children,
+        //         view('welcome', ['users' => $users])->render(),
+        //     ];
+        // }
 
-            // }
-
-            // $recordsTotal = $query->count();
-
-            // $sortColumnName = $sortColumns[$order[0]['column']];
-
-            // $query->orderBy($sortColumnName, $order[0]['dir'])
-            //         ->take($length)
-            //         ->skip($start);
-
-            // $json = array(
-            //     'draw' => $draw,
-            //     'recordsTotal' => $recordsTotal,
-            //     'recordsFiltered' => $recordsTotal,
-            //     'data' => [],
-            // );
-
-            // $users = $query->get();
-
-            // foreach ($users as $user) {
-
-            //     $json['data'][] = [
-            //         $user->name,
-            //         $user->email,
-            //         $user->contact,
-            //         $user->location,
-            //         $user->home_cell,
-            //         $user->marital_status,
-            //         $user->no_of_children,
-            //         view('welcome', ['users' => $users])->render(),
-            //     ];
-            // }
-
-            // return $json;
-        }
+        // return $json;
+    }
 }
