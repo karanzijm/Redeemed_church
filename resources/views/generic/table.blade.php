@@ -166,7 +166,7 @@
                 <div class="col-sm-12">
 
                     @if(session()->get('success'))
-                    <div class="alert alert-success">
+                    <div class="alert alert-success alert-dismissible fade show">
                         {{ session()->get('success') }}
                     </div>
                     @endif
@@ -218,6 +218,8 @@
                                         <th>Phone Number</th>
                                         <th>Watsup Number</th>
                                         <th>Home Cell</th>
+                                        <th>Role</th>
+                                        <th>Department</th>
                                         <th>Action</th>
                                     </tr>
                                     </thead>
@@ -236,6 +238,8 @@
                                         <td>{{$user->phone_number}}</td>
                                         <td>{{$user->watsup_number}}</td>
                                         <td>{{$user->home_cell}}</td>
+                                        <td>{{$user->role}}</td>
+                                        <td>{{$user->department}}</td>
                                         <td>
                                             <a href="{{ route('edit',$user->id) }}" class="edit btn btn-success btn-sm">Edit</a>
 <!--                                            <a href="#" data-toggle="modal" data-id="{{$user->id}}"-->

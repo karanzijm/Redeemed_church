@@ -13,9 +13,9 @@ class Church extends Model
 
     protected $fillable = [
      'name', 'email','home_cell', 'phone_number', 'watsup_number',
-     'marital_status', 'no_of_children','gender','age', 'status'
+     'marital_status', 'no_of_children','gender','age', 'status', 'role', 'department'
     ];
 
     protected $sortable = ['name', 'email','home_cell', 'phone_number', 'watsup_number',
-    'marital_status', 'no_of_children','gender','age', 'status'];
+    'marital_status', 'no_of_children','gender','age', 'status', 'role', 'department'];
 }

@@ -31,6 +31,8 @@ class churchImport implements ToModel, WithHeadingRow, WithValidation
                     'marital_status' => $row['marital_status'],
                     'no_of_children' => $row['no_of_children'],
                     'age' => $row['age'],
+                    'role' => $row['role'],
+                    'department' => $row['department']
             ]);
             }
         }
