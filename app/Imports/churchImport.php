@@ -17,6 +17,7 @@ class churchImport implements ToModel, WithHeadingRow, WithValidation
     */
     public function model(array $row)
     {
+        // var_dump("import....");
         // dd($row);
         if($row['phone']){
             $number = preg_replace('/^0/', '256', $row['phone']);
@@ -25,14 +26,16 @@ class churchImport implements ToModel, WithHeadingRow, WithValidation
                 return new Church([
                     'name' => $row['name'],
                     'email' =>$row['email'],
-                    'home_cell' => $row['homecell'],
+                    'home_cell' => $row['home_cell'],
                     'phone_number' => $number,//convert this to 256 number
-                    'watsup_number' => $row['watsup'],
+                    'watsup_number' => $row['whatsup'],
                     'marital_status' => $row['marital_status'],
                     'no_of_children' => $row['no_of_children'],
                     'age' => $row['age'],
                     'role' => $row['role'],
-                    'department' => $row['department']
+                    'department' => $row['department'],
+                    'status' => 1
+
             ]);
             }
         }

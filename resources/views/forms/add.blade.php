@@ -81,6 +81,19 @@
                 </div>
 
                 <div class="form-group mb-2">
+                    <label for="role" class="col-sm-6 col-form-label">Role</label>
+                    <input type="text" class="form-control" id="role" name="role"
+                           value="{{ old('role') }}">
+                </div>
+
+
+                <div class="form-group mb-2">
+                    <label for="department" class="col-sm-6 col-form-label">Department</label>
+                    <input type="text" class="form-control" id="department" name="department"
+                           value="{{ old('department') }}">
+                </div>
+
+                <div class="form-group mb-2">
                     <label for="marital_status" class="col-sm-6 col-form-label">Marital Status</label>
 
                     <select value="{{ old('marital_status') }}" class="col-sm-12 form-control" name="marital_status" aria-placeholder="Marital Status">

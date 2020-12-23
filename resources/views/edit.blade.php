@@ -50,6 +50,18 @@
                     <label for="home_cell" class="col-sm-6 col-form-label">Home Cell</label>
                     <input type="text" class="form-control" id="home_cell" name="home_cell" value="{{$user->home_cell ?? ''}}">
                 </div>
+                <div class="form-group mb-2">
+                    <label for="role" class="col-sm-6 col-form-label">Role</label>
+                    <input type="text" class="form-control" id="role" name="role"
+                    value="{{$user->role ?? ''}}">
+                </div>
+
+
+                <div class="form-group mb-2">
+                    <label for="department" class="col-sm-6 col-form-label">Department</label>
+                    <input type="text" class="form-control" id="department" name="department"
+                    value="{{$user->department ?? ''}}">
+                </div>
 
                 <div class="form-group mb-2">
                     <label for="marital_status" class="col-sm-3 col-form-label">Marital Status</label>

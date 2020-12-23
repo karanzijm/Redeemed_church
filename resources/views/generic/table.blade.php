@@ -34,6 +34,7 @@
         }
     </style>
 
+
 </head>
 
 <body id="page-top">
@@ -87,6 +88,12 @@
             <a class="nav-link" href="#">
                 <i class="fas fa-fw fa-user"></i>
                 <span>Account</span></a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('departments.index') }}">
+                <i class="fas fa-fw fa-user"></i>
+                <span>Departments</span></a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault();
@@ -214,9 +221,9 @@
                                     <tr>
                                         <th><input type="checkbox" class="selectAll" onclick()="selectAll()"></th>
                                         <th>Name</th>
-                                        <th>Email</th>
+                                        {{-- <th>Email</th> --}}
                                         <th>Phone Number</th>
-                                        <th>Watsup Number</th>
+                                        {{-- <th>Watsup Number</th> --}}
                                         <th>Home Cell</th>
                                         <th>Role</th>
                                         <th>Department</th>
@@ -234,9 +241,9 @@
                                         <td><input data-id="{{$user->phone_number}}" value="{{$user->id}}"
                                                    class="sub_chk" type="checkbox" name="selected_values[]">
                                         <td>{{$user->name}}</td>
-                                        <td>{{$user->email}}</td>
+                                        {{-- <td>{{$user->email}}</td> --}}
                                         <td>{{$user->phone_number}}</td>
-                                        <td>{{$user->watsup_number}}</td>
+                                        {{-- <td>{{$user->watsup_number}}</td> --}}
                                         <td>{{$user->home_cell}}</td>
                                         <td>{{$user->role}}</td>
                                         <td>{{$user->department}}</td>
@@ -342,7 +349,7 @@
 <!-- End Delete Modal -->
 
 <!-- Send Message Modal-->
-<div class="modal fade" id="sendMessage" tabindex="-1" role="dialog" aria-labelledby="uploadContacts"
+<div class="modal fade" id="sendMessage" tabindex="-1" role="dialog" aria-labelledby="sendMessage"
      aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -356,7 +363,7 @@
 
                 <!-- Image loader -->
                 <div id='loader' style='display: none;'>
-                    <img src='{{ asset(' images/reload.gif') }}' width='32px' height='32px'>
+                    <img src='{{ asset('images/reload.gif') }}' width='32px' height='32px'>
                 </div>
                 <!-- END Image loader -->
 
@@ -405,7 +412,7 @@
             <div class="modal-body">
                 <!-- Image loader -->
                 <div id='loader_upload' style='display: none;'>
-                    <img src='{{ asset(' images/reload.gif') }}' width='32px' height='32px'>
+                    <img src='{{ asset('images/reload.gif') }}' width='32px' height='32px'>
                 </div>
                 <!-- END Image loader -->
                 <div class="uploadMessage"></div>
@@ -462,7 +469,6 @@
         $('.file_upload').submit(function () {
             console.log('upload_yeah');
             var formData = new FormData(this);
-            // var file = $('.file_upload').val();
             $.ajax({
                 type: 'POST',
                 url: "{{ url('read') }}",
@@ -475,6 +481,7 @@
                     $("#loader_upload").show();
                 },
                 success: function (response) {
+                    console.log(response)
                     if (response == 0) {
                         $('.uploadMessage').css("margin-top", "10px");
                         $('.uploadMessage').addClass("alert alert-success");
@@ -493,7 +500,7 @@
                     // Hide image container
                     $("#loader_upload").hide();
                     setTimeout(() => {
-                        $('#sendMessage').modal('hide');
+                        $('#uploadContacts').modal('hide');
                         window.location.href = location.href;
                     }, 5000);
                 },
@@ -512,8 +519,9 @@
         });
 
         $('#message_push').submit(function () {
-            var users = { !! json_encode($congregation->toArray()) !!
-        }
+            var users = <?php echo json_encode($congregation) ?>
+            // { !! json_encode($congregation->toArray()) !!  }
+            console.log(users);
             contacts = users.data;
             message = $('#message').val();
             $.ajax({

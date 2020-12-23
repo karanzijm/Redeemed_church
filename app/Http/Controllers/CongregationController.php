@@ -70,10 +70,13 @@ class CongregationController extends Controller
             'phone_number' => $request->get('phone_number'),
             'watsup_number' => $request->get('watsup_number'),
             'home_cell' => $request->get('home_cell'),
+            'role' => $request->get('role'),
+            'department' => $request->get('department'),
             'marital_status' => $request->get('marital_status'),
             'no_of_children' => $request->get('no_of_children'),
             'age' => $request->get('age'),
             'gender' => $request->get('gender'),
+            'status' => 1
 
         ]);
         $aa = $user->save();
@@ -91,6 +94,8 @@ class CongregationController extends Controller
             $user->phone_number = $request->get('phone_number');
             $user->watsup_number = $request->get('watsup_number');
             $user->home_cell = $request->get('home_cell');
+            $user->role = $request->get('role');
+            $user->department = $request->get('department');
             $user->marital_status = $request->get('marital_status');
             $user->no_of_children = $request->get('no_of_children');
             $user->age = $request->get('age');
