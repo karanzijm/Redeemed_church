@@ -46,6 +46,8 @@ Route::post('send_message', 'SendSmsController@getContacts');
 
 Route::post('saveUser', 'CongregationController@store')->name('saveUser');
 Route::get('addUser', 'CongregationController@create')->name('addUser');
+Route::post('export_download', 'CongregationCOntroller@export')->name('download');
+Route::get('export_report', 'CongregationCOntroller@exportView')->name('viewReport');
 
 // Route::resource('department', 'DepartmentController');
 Route::resource('departments', 'DepartmentController');

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Exports\CongregationExport;
+use App\Exports\ChurchExport;
 use App\Imports\CongregationImport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Congregation;
@@ -28,9 +29,16 @@ class CongregationController extends Controller
         // return view('generic.table');
     }
 
-    public function export()
+    public function export(Request $request)
     {
-        return Excel::download(new CongregationExport, 'Congregation.xlsx');
+        // var_dump($request->get('filter')); exit();
+        return (new ChurchExport($request->get('filter')))->download('church_data.xlsx', \Maatwebsite\Excel\Excel::XLSX);
+
+        //return Excel::download(new CongregationExport, 'Congregation.xlsx');
+    }
+
+    public function exportView(){
+        return view('generic.export_report');
     }
 
     public function import()
@@ -178,6 +186,8 @@ class CongregationController extends Controller
         return view('welcome');
     }
 
+
+
     public function filters(Request $request)
     {
 
@@ -193,7 +203,9 @@ class CongregationController extends Controller
                         ->orWhere('email', 'like', '%' . $this->filter . '%')
                         ->orWhere('phone_number', 'like', '%' . $this->filter . '%')
                         ->orWhere('watsup_number', 'like', '%' . $this->filter . '%')
-                        ->orWhere('home_cell', 'like', '%' . $this->filter . '%');
+                        ->orWhere('home_cell', 'like', '%' . $this->filter . '%')
+                        ->orWhere('role', 'like', '%' . $this->filter . '%')
+                        ->orWhere('department', 'like', '%' . $this->filter . '%');
 
                 })
                 ->paginate($paginate);
