@@ -122,7 +122,7 @@ class CongregationController extends Controller
         $user = Church::find($id);
         $user->status = 0;
         $user->save();
-        return redirect('/getUsers');
+        return redirect()->back()->with('success', 'Deleted Successfully.');
     }
 
     public function send()
@@ -196,7 +196,7 @@ class CongregationController extends Controller
         // $orQuery =
         if (!empty($this->filter)) {
             // dd($this->par);
-            $users = Church::select('*')
+            $users = Church::select('*')->latest()
                 ->where('status', 1)
                 ->where(function ($query) {
                     $query->where('name', 'like', '%' . $this->filter . '%')
@@ -204,13 +204,14 @@ class CongregationController extends Controller
                         ->orWhere('phone_number', 'like', '%' . $this->filter . '%')
                         ->orWhere('watsup_number', 'like', '%' . $this->filter . '%')
                         ->orWhere('home_cell', 'like', '%' . $this->filter . '%')
+                        ->orWhere('marital_status', 'like', '%' . $this->filter . '%')
                         ->orWhere('role', 'like', '%' . $this->filter . '%')
                         ->orWhere('department', 'like', '%' . $this->filter . '%');
 
                 })
                 ->paginate($paginate);
         } else {
-            $users = Church::select('*')->where('status', 1)
+            $users = Church::select('*')->latest()->where('status', 1)
                 ->paginate($paginate);
         }
         return view('generic.table', ['congregation' => $users]);

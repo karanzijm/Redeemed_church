@@ -177,7 +177,7 @@
                 <div class="col-sm-12">
 
                     @if(session()->get('success'))
-                    <div class="alert alert-success alert-dismissible fade show">
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
                         {{ session()->get('success') }}
                     </div>
                     @endif
@@ -229,6 +229,7 @@
                                         <th>Phone Number</th>
                                         {{-- <th>Watsup Number</th> --}}
                                         <th>Home Cell</th>
+                                        <th>Marital Status</th>
                                         <th>Role</th>
                                         <th>Department</th>
                                         <th>Action</th>
@@ -249,14 +250,15 @@
                                         <td>{{$user->phone_number}}</td>
                                         {{-- <td>{{$user->watsup_number}}</td> --}}
                                         <td>{{$user->home_cell}}</td>
+                                        <td>{{$user->marital_status}}</td>
                                         <td>{{$user->role}}</td>
                                         <td>{{$user->department}}</td>
                                         <td>
-                                            <a href="{{ route('edit',$user->id) }}" class="edit btn btn-success btn-sm">Edit</a>
-<!--                                            <a href="#" data-toggle="modal" data-id="{{$user->id}}"-->
-<!--                                               data-url="{!! URL::route('delete',$user->id) !!}"-->
-<!--                                               data-target="#deleteModal"-->
-<!--                                               class="delete_user btn btn-danger btn-sm">Delete</a>-->
+                                            <a href="{{ route('edit',$user->id) }}" class="edit btn btn-success btn-sm"><i class="fa fa-edit"></i></a>
+                                           <button type="button" data-id="{{$user->id}}"
+                                               data-url="{!! URL::route('delete',$user->id) !!}"
+
+                                              class="delete_user btn btn-danger btn-sm"><i class="fa fa-trash-alt"></i></button>
                                         </td>
                                     </tr>
 
@@ -458,12 +460,6 @@
 <script src="js/demo/datatables-demo.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        window.setTimeout(function() {
-            $(".alert").fadeTo(1000, 0).slideUp(1000, function(){
-                $(this).remove();
-            });
-        }, 5000);
-
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -518,13 +514,12 @@
 
         $('#message').keyup(function () {
             var words = $.trim($('#message').val()).split("");
-            var message = words.length + " characters, " + ((Math.floor(words.length / 160)) + 1) + " message(s)";
+            var message = words.length + " characters, " + ((Math.floor(words.length / 150)) + 1) + " message(s)";
             $('#message_character').html(message);
         });
 
         $('#message_push').submit(function () {
-            var users = <?php echo json_encode($congregation) ?>
-            // { !! json_encode($congregation->toArray()) !!  }
+            var users = <?php echo json_encode($congregation); ?>;
             console.log(users);
             contacts = users.data;
             message = $('#message').val();
@@ -572,13 +567,15 @@
 
         $('.delete_user').click(function () {
             console.log("deleting");
+            $("#deleteModal").modal('show');
             var id = $(this).attr('data-id');
             var url = $(this).attr('data-url');
-            var token = CSRF_TOKEN;
-            $(".delete").attr("action", url);
-            $('body').find('.delete').append('<input name="_token" type="hidden" value="' + token + '">');
-            $('body').find('.delete').append('<input name="_method" type="hidden" value="DELETE">');
-            $('body').find('.delete').append('<input name="id" type="text" value="' + id + '">');
+            console.log(url);
+            var token = $('meta[name="csrf-token"]').attr('content');
+            $(".remove-record-model").attr("action", url);
+            $('body').find('#deleteModal').append('<input name="_token" type="hidden" value="' + token + '">');
+            $('body').find('#deleteModal').append('<input name="_method" type="hidden" value="DELETE">');
+            // $('body').find('.delete').append('<input name="id" type="text" value="' + id + '">');
 
         });
 
