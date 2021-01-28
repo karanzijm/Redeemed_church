@@ -70,7 +70,9 @@ class SendSmsController extends Controller
     public function getContacts(Request $request)
     {
         $contacts = $request->get('contacts');
+        // var_dump($contacts);
         $this->message = $request->get('message');
+        // var_dump($this->message);
         $contact_ = [];
         foreach ($contacts as $contact) {
             if (strlen($contact['phone_number']) == 10) {
@@ -107,21 +109,21 @@ class SendSmsController extends Controller
                 array_push($imp, $id);
                 if ($i > 50) {
                     $recipients = implode(',', $imp);
-                    // $result = $this->sendToAT($recipients);
+                    $result = $this->sendToAT($recipients);
                     $i = 0;
                     array_splice($imp, 0);
                     echo '<br/>';
                 }
 
                 if ($key >= $div) {
-                    // $result=$this->sendToAT($id);
+                    $result=$this->sendToAT($id);
                     var_dump($id);
                 }
 
             }
         }
 
-        echo $result == 1701 ? 0 : 1;
+        // echo $result == 1701 ? 0 : 1;
     }
 
     private function sendToAT($recipients)
