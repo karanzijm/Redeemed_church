@@ -29,12 +29,12 @@ class CongregationController extends Controller
         // return view('generic.table');
     }
 
-    public function export(Request $request)
+    public function export()
     {
         // var_dump($request->get('filter')); exit();
-        return (new ChurchExport($request->get('filter')))->download('church_data.xlsx', \Maatwebsite\Excel\Excel::XLSX);
+        // return (new ChurchExport($request->get('filter')))->download('church_data.xlsx', \Maatwebsite\Excel\Excel::XLSX);
 
-        //return Excel::download(new CongregationExport, 'Congregation.xlsx');
+        return Excel::download(new ChurchExport, 'Congregation.xlsx');
     }
 
     public function exportView(){
